@@ -4,12 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from PIL import Image
-from django.contrib.auth.models import User
-from django.contrib.auth.base_user import BaseUserManager
-
-
 
 # Create your models here.
 class Category(models.Model):
@@ -25,7 +20,6 @@ class Category(models.Model):
 
     def __str__(self):
         return str(f"{self.name}")
-
 
 class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete= models.CASCADE)
@@ -60,4 +54,3 @@ class Books(models.Model):
 
     def __str__(self):
         return str(f"{self.isbn} - {self.title}")
-
