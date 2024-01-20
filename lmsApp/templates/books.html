@@ -11,10 +11,7 @@
                     <div class="text-end mb-3">
                         <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> Add New</button>
                     </div>
-                    {% for book in books %}
-                    {{book}}
-                    {% endfor %}
-                    <table class="table table-bordered table-striped" id="book-tbl">
+                    <table class="table table-bordered table-striped" id="book-tbl" width="100%">
                         <colgroup>
                             <col width="5%">
                             <col width="15%">
@@ -28,7 +25,6 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Date Added</th>
-                                <th class="text-center">Category</th>
                                 <th class="text-center">ISBN</th>
                                 <th class="text-center">Title</th>
                                 <th class="text-center">Status</th>
@@ -40,12 +36,7 @@
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
                                 <td>{{ book.date_added|date:"Y-m-d h:i A"}}</td>
-                                <td>
-                                    <div class="lh-1">
-                                        {% comment %} <div>{{ book.sub_category.category.name}}</div> {% endcomment %}
-                                        <div>{{ book.category.name}}</div>
-                                    </div>
-                                </td>
+                               
                                 <td>{{ book.isbn}}</td>
                                 <td>{{ book.title }}</td>
                                 <td class="text-center">
