@@ -6,6 +6,7 @@ from unicodedata import category
 from django import forms
 from numpy import require
 from lmsApp import models
+from .models import EBook
 import datetime
 
 class SaveCategory(forms.ModelForm):
@@ -29,40 +30,8 @@ class SaveCategory(forms.ModelForm):
             return name
         raise forms.ValidationError("Category Name already exists.")
 
-class SaveSubCategory(forms.ModelForm):
-    category = forms.CharField(max_length=250)
-    name = forms.CharField(max_length=250)
-    description = forms.Textarea()
-    status = forms.CharField(max_length=2)
-
-    class Meta:
-        model = models.SubCategory
-        fields = ('category', 'name', 'description', 'status', )
-
-    def clean_category(self):
-        cid = int(self.data['category']) if (self.data['category']).isnumeric() else 0
-        try:
-            category = models.Category.objects.get(id = cid)
-            return category
-        except:
-            raise forms.ValidationError("Invalid Category.")
-
-    def clean_name(self):
-        id = int(self.data['id']) if (self.data['id']).isnumeric() else 0
-        cid = int(self.data['category']) if (self.data['category']).isnumeric() else 0
-        name = self.cleaned_data['name']
-        try:
-            category = models.Category.objects.get(id = cid)
-            if id > 0:
-                sub_category = models.SubCategory.objects.exclude(id = id).get(name = name, delete_flag = 0, category = category)
-            else:
-                sub_category = models.SubCategory.objects.get(name = name, delete_flag = 0, category = category)
-        except:
-            return name
-        raise forms.ValidationError("Sub-Category Name already exists on the selected Category.")
-     
 class SaveBook(forms.ModelForm):
-    sub_category = forms.CharField(max_length=250)
+    category = forms.CharField(max_length=250)
     isbn = forms.CharField(max_length=250)
     title = forms.CharField(max_length=250)
     description = forms.Textarea()
@@ -73,15 +42,15 @@ class SaveBook(forms.ModelForm):
 
     class Meta:
         model = models.Books
-        fields = ('isbn', 'sub_category', 'title', 'description', 'author', 'publisher', 'date_published', 'status', )
+        fields = ('isbn', 'category', 'title', 'description', 'author', 'publisher', 'date_published', 'status', )
 
-    def clean_sub_category(self):
-        scid = int(self.data['sub_category']) if (self.data['sub_category']).isnumeric() else 0
+    def clean_category(self):
+        scid = int(self.data['category']) if (self.data['category']).isnumeric() else 0
         try:
-            sub_category = models.SubCategory.objects.get(id = scid)
-            return sub_category
+            category = models.Category.objects.get(id = scid)
+            return category
         except:
-            raise forms.ValidationError("Invalid Sub Category.")
+            raise forms.ValidationError("Invalid Category.")
 
     def clean_isbn(self):
         id = int(self.data['id']) if (self.data['id']).isnumeric() else 0
