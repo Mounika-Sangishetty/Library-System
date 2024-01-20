@@ -126,11 +126,7 @@ def home(request):
     context['page_title'] = 'Home'
     context['categories'] = models.Category.objects.filter(delete_flag = 0, status = 1).all().count()
     context['sub_categories'] = models.SubCategory.objects.filter(delete_flag = 0, status = 1).all().count()
-    context['students'] = models.Students.objects.filter(delete_flag = 0, status = 1).all().count()
-    context['books'] = models.Students.objects.filter(delete_flag = 0, status = 1).all().count()
-    context['pending'] = models.Borrow.objects.filter(status = 1).all().count()
-    context['pending'] = models.Borrow.objects.filter(status = 1).all().count()
-    context['transactions'] = models.Borrow.objects.all().count()
+    context['books'] = models.Books.objects.filter(delete_flag = 0, status = 1).all().count()
 
     return render(request, 'home.html', context)
 
