@@ -15,18 +15,18 @@
             <input type="text" id="isbn" name="isbn" class="form-control form-control-sm rounded-0" value="{{book.isbn}}" required>
         </div>
         <div class="mb-3">
-            <label for="sub_category" class="control-label">Category</label>
-            <select type="text" id="sub_category" name="sub_category" class="form-select form-select-sm rounded-0" required>
+            <label for="category" class="control-label">Category</label>
+            <select type="text" id="category" name="category" class="form-select form-select-sm rounded-0" required>
                 {% if not book.category %}
                     <option  disabled selected></option>
                 {% else %}
                     <option disabled>Male</option>
                 {% endif %}
-                {% for sub_category in sub_categories %}
-                {% if  book.sub_category.id == sub_category.id %}
-                    <option value="{{sub_category.id}}" selected>{{sub_category.category}} - {{sub_category.name}}</option>
+                {% for category in categories %}
+                {% if  book.category.id == category.id %}
+                    <option value="{{category.id}}" selected>{{category.name}}</option>
                 {% else %}
-                    <option value="{{sub_category.id}}">{{sub_category.category}} - {{sub_category.name}}</option>
+                    <option value="{{category.id}}">{{category.name}}</option>
                 {% endif %}
                 {% endfor %}
             </select>
@@ -71,7 +71,7 @@
 <script>
     $(function() {
         $('#uni_modal').on('shown.bs.modal', function() {
-            $('#sub_category').select2({
+            $('#category').select2({
                 width: "100%",
                 placeholder: "Please Select Category Here",
                 dropdownParent: $('#uni_modal'),

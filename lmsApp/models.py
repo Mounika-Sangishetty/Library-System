@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image
 
+from lmsApp.views import books
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=250)
@@ -21,23 +23,8 @@ class Category(models.Model):
     def __str__(self):
         return str(f"{self.name}")
 
-class SubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete= models.CASCADE)
-    name = models.CharField(max_length=250)
-    description = models.TextField(blank=True, null= True)
-    status = models.CharField(max_length=2, choices=(('1','Active'), ('2','Inactive')), default = 1)
-    delete_flag = models.IntegerField(default = 0)
-    date_added = models.DateTimeField(default = timezone.now)
-    date_created = models.DateTimeField(auto_now = True)
-
-    class Meta:
-        verbose_name_plural = "List of Categories"
-
-    def __str__(self):
-        return str(f"{self.category} - {self.name}")
-
 class Books(models.Model):
-    sub_category = models.ForeignKey(SubCategory, on_delete= models.CASCADE)
+    category = models.ForeignKey(Category, on_delete= models.CASCADE)    
     isbn = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True, null= True)
@@ -54,3 +41,4 @@ class Books(models.Model):
 
     def __str__(self):
         return str(f"{self.isbn} - {self.title}")
+    
